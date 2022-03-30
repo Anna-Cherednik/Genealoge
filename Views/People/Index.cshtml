@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Genealoge.Models.PeopleViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div class="container-fluid">
+
+    <div class="list-group">
+
+        @foreach (var item in Model)
+        {
+            @Html.ActionLink(item.FullName, "Details", new { id = item.Id }, new { @class="list-group-item"})
+        }
+
+    </div>
+
+    </div>
+
+

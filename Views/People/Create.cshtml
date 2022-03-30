@@ -1,0 +1,149 @@
+﻿@model Genealoge.Models.CreatePersonViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@{ WebImage photo = null;
+    var newFileName = "";
+    //var imagePath = "";
+
+    if (IsPost)
+    {
+        photo = WebImage.GetImageFromRequest();
+        if (photo != null)
+        {
+            newFileName = Guid.NewGuid().ToString() + "_" +
+                Path.GetFileName(photo.FileName);
+            Model.PhotoPath = @"Resourses\" + Model.Id + "\\" + newFileName;
+
+            photo.Save(@"~\" + Model.PhotoPath);
+        }
+    }
+}
+
+<form action="" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+
+    <div>
+        <hr />
+        <div class="container-fluid well">
+            <div class="row">
+                <div class="col-sm-1">Діти:</div>
+                <div class="col-sm-1"><p><a id="add_child">Добавить</a></p></div>
+                <div id="ChildBlock" class="col-sm-3"></div>
+            </div>
+        </div>
+
+        <div class="container row">
+            <div class="col-sm-3 well text-center">
+
+                <div style="padding:10px;">
+                    @if (Model.PhotoPath != null && Model.PhotoPath != "")
+                    {
+                        <img src="@Url.Content(@Model.PhotoPath)" alt="image" />
+                    }
+                </div>
+
+                <fieldset>
+                    <legend> Загрузити фото </legend>
+                    <label for="Image">Image</label>
+                    <input type="file" name="Image" />
+                    <br />
+
+                </fieldset>
+
+                <div>@Html.EditorFor(model => model.FirstName)</div>
+                <div>@Html.EditorFor(model => model.LastName)</div>
+                <div>@Html.EditorFor(model => model.ThirdName)</div>
+                <div>@Html.EditorFor(model => model.Gender)</div>
+                <input type="submit" value="Зберегти" />
+            </div>
+            <div class="col-sm-9">
+                <div class="well">
+                    <div class="row">
+                        <div class="col-sm-1">Сімейний стан:</div>
+                        <div class="col-sm-1"><p><a id="add_marriage">Добавить</a></p></div>
+                        <div id="MarriageBlock" class="col-sm-3"></div>
+                    </div>
+                </div>
+                <div class="well">
+                    <div class="row">
+                        <div class="col-sm-1">Брати і сестри:</div>
+                        <div class="col-sm-1"><p><a id="add_sibling">Добавить</a></p></div>
+                        <div id="SiblingBlock" class="col-sm-3"></div>
+                    </div>                   
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid well">
+            <div class="row">
+                <div class="col-sm-1">Батьки:</div>
+                <div class="col-sm-1"><p><a id="add_parent">Добавить</a></p></div>
+                <div id="ParentBlock" class="col-sm-3"></div>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            alert('document_ready');
+            var ch = -1;
+            $("#add_child").click(function () {
+                ch++;
+                var html2Add = "<div class='childItem'>" +
+                    "<p>Дитина № " + (ch + 1) + "</p>" +
+                    "<div><input type='text' name='Children[" + ch + "].FirstName' /></div>" +
+                    "<div><input type='text' name='Children[" + ch + "].LastName' /></div>" +
+                    "<div><input type='text' name='Children[" + ch + "].ThirdName' /></div>" +
+                    "<div><input type='text' name='Children[" + ch + "].Gender' /></div>" +
+                    "</div></div></div>";
+                $('#ChildBlock').append(html2Add);
+            })
+            var m = -1;
+            $("#add_marriage").click(function () {
+                m++;
+                var html2Add = "<div class='marriageItem'>" +
+                    "<p>Партнер № " + (m + 1) + "</p>" +
+                    "<div><input type='text' name='Marriage[" + m + "].FirstName' /></div>" +
+                    "<div><input type='text' name='Marriage[" + m + "].LastName' /></div>" +
+                    "<div><input type='text' name='Marriage[" + m + "].ThirdName' /></div>" +
+                    "<div><input type='text' name='Marriage[" + m + "].Gender' /></div>" +
+                    "</div></div></div>";
+                $('#MarriageBlock').append(html2Add);
+            })
+            var s = -1;
+            $("#add_sibling").click(function () {
+                s++;
+                var html2Add = "<div class='siblingItem'>" +
+                    "<p>Sibling № " + (s + 1) + "</p>" +
+                    "<div><input type='text' name='Siblings[" + s + "].FirstName' /></div>" +
+                    "<div><input type='text' name='Siblings[" + s + "].LastName' /></div>" +
+                    "<div><input type='text' name='Siblings[" + s + "].ThirdName' /></div>" +
+                    "<div><input type='text' name='Siblings[" + s + "].Gender' /></div>" +
+                    "</div></div></div>";
+                $('#SiblingBlock').append(html2Add);
+            })
+            var p = -1;
+            $("#add_parent").click(function () {
+                p++;
+                var html2Add = "<div class='parentItem'>" +
+                    "<p>Parent № " + (p + 1) + "</p>" +
+                    "<div><input type='text' name='Parents[" + p + "].FirstName' /></div>" +
+                    "<div><input type='text' name='Parents[" + p + "].LastName' /></div>" +
+                    "<div><input type='text' name='Parents[" + p + "].ThirdName' /></div>" +
+                    "<div><input type='text' name='Parents[" + p + "].Gender' /></div>" +
+                    "</div></div></div>";
+                $('#ParentBlock').append(html2Add);
+            })
+        })
+    </script>
+}

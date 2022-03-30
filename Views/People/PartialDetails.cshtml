@@ -1,0 +1,24 @@
+﻿@model Genealoge.Models.PersonShortViewModel
+
+<div class="container">
+
+        <a href="@Url.Action("Details", "People", new { id = Model.Id})">
+            <div >
+                <div >
+                    @if (Model.PhotoPath != null && Model.PhotoPath != "")
+                    {
+                        <img src="@Url.Content(@Model.PhotoPath)" alt="Sample Image" width="100px" />
+                    }
+                    else { <img src="~/Resourses/photo3.png" alt="Sample Image" width="100px" />}
+                </div>
+
+                <div >
+                    <div>@Html.DisplayFor(model => model.FirstName)</div>
+                    <div> @Html.DisplayFor(model => model.LastName)</div>
+                    <div>@Html.DisplayFor(model => model.ThirdName)</div>
+                </div>
+            </div>
+        </a>
+
+
+</div>

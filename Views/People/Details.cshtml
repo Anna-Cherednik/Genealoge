@@ -1,0 +1,118 @@
+﻿@model Genealoge.Models.PersonFullViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>@Model.FirstName @Model.LastName @Model.ThirdName</h2>
+
+<div>
+    <hr />
+    <div class="container-fluid well">
+        <div class="row">
+            <div class="col-sm-1">Діти:</div>
+            @if (Model.Children.Count == 0)  {<div class="col-sm-3"> Інформація відсутня</div>}
+            else {
+                foreach (var child in Model.Children)
+                {
+                    <div class="col-sm-3"> 
+                        @Html.Partial("PartialDetails", child)
+                    </div>
+                }                
+            }
+            @Html.ActionLink("Додати", "AddChild", new { id = Model.Id }, new { @class = "btn btn-info col-sm-1", @role = "button" })
+        </div>
+    </div>
+
+    <div class="container row">
+        <div class="col-sm-3 well text-center">
+
+            <div style="padding:10px;">
+                @if (Model.PhotoPath != null && Model.PhotoPath != "")
+                {
+                <img src="@Url.Content(@Model.PhotoPath)" alt="Sample Image" width="200px" />
+                }
+                else { <img src="~/Resourses/photo3.png" alt="Sample Image" width="200px" /> }
+            </div>
+
+
+            <div>@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</div>
+            <div>@Html.DisplayFor(model => model.ThirdName)</div>
+            <div>@Html.DisplayFor(model => model.Gender)</div>
+            @Html.ActionLink("Редагувати", "Edit", new { id = Model.Id }, new { @class = "btn btn-info btn-block", @role = "button" })
+        </div>
+        <div class="col-sm-9">
+            <div class="well">           
+                <div class="row">
+                    <div class="col-sm-1">Сімейний стан::</div>
+                        @if (Model.Marriage.Count == 0) {<div class="col-sm-3"> Інформація відсутня</div>}
+                        else
+                        {
+                            foreach (var marriage in Model.Marriage)
+                            {
+                                <div class="col-sm-2">
+                                    @Html.Partial("PartialDetails", marriage)
+                                </div>
+                            }
+                        }
+                    @Html.ActionLink("Додати", "AddMarriage", new { id = Model.Id }, new { @class = "btn btn-info col-sm-1", @role = "button" })
+                </div>
+            </div>
+            <div class="well"> 
+                <div class="row">
+                    <div class="col-sm-1">Брати і сестри:</div>
+                        @if (Model.Siblings.Count == 0) {<div class="col-sm-3"> Інформація відсутня</div>}
+                        else
+                        {
+                            foreach (var sibling in Model.Siblings)
+                            {
+                                <div class="col-sm-2">
+                                    @Html.Partial("PartialDetails", sibling)
+                                </div>
+                            }
+                        }
+                    @Html.ActionLink("Додати", "AddSibling", new { id = Model.Id }, new { @class = "btn btn-info col-sm-1", @role = "button" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid well">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="row">
+                    <div class="col-sm-1">Батько:</div>
+                        @if (Model.Fathers.Count == 0) {<div class="col-sm-3"> Інформація відсутня</div>}
+                        else
+                        {
+                            foreach (var father in Model.Fathers)
+                            {
+                                <div class="col-sm-2">
+                                    @Html.Partial("PartialDetails", father)
+                                </div>
+                            }
+                        }
+                    @Html.ActionLink("Додати", "AddParent", new { id = Model.Id }, new { @class = "btn btn-info col-sm-2", @role = "button" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="row">
+                    <div class="col-sm-1">Мати:</div>
+                        @if (Model.Mothers.Count == 0) {<div class="col-sm-3"> Інформація відсутня</div>}
+                        else
+                        {
+                            foreach (var mother in Model.Mothers)
+                            {
+                                <div class="col-sm-2">
+                                    @Html.Partial("PartialDetails", mother)
+                                </div>
+                            }
+                        }
+                    @Html.ActionLink("Додати", "AddParent", new { id = Model.Id }, new { @class = "btn btn-info col-sm-2", @role = "button" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid well">Інформація</div>
+</div>    
